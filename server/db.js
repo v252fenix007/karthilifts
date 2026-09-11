@@ -23,10 +23,18 @@ db.exec(`
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     ref_code TEXT UNIQUE NOT NULL,
     name TEXT NOT NULL,
+    age INTEGER,
+    gender TEXT,
     phone TEXT NOT NULL,
     email TEXT NOT NULL,
+    instagram TEXT,
+    occupation TEXT,
     goal TEXT NOT NULL,
     plan TEXT NOT NULL,
+    struggles TEXT,
+    workout_time TEXT,
+    budget TEXT,
+    payment_method TEXT,
     experience TEXT,
     message TEXT,
     macro_profile TEXT,
@@ -56,6 +64,25 @@ db.exec(`
     created_at TEXT NOT NULL
   );
 `);
+
+// Dynamic column migration for existing leads table
+const existingCols = db.prepare("PRAGMA table_info(leads)").all().map(c => c.name);
+const neededCols = [
+  { name: 'age', type: 'INTEGER' },
+  { name: 'gender', type: 'TEXT' },
+  { name: 'instagram', type: 'TEXT' },
+  { name: 'occupation', type: 'TEXT' },
+  { name: 'struggles', type: 'TEXT' },
+  { name: 'workout_time', type: 'TEXT' },
+  { name: 'budget', type: 'TEXT' },
+  { name: 'payment_method', type: 'TEXT' }
+];
+
+for (const col of neededCols) {
+  if (!existingCols.includes(col.name)) {
+    db.exec(`ALTER TABLE leads ADD COLUMN ${col.name} ${col.type}`);
+  }
+}
 
 // Seed settings if empty
 const getSetting = (key) => {
@@ -153,17 +180,29 @@ export const dbOps = {
     const ref_code = 'KL-' + Math.floor(1000 + Math.random() * 9000);
     const created_at = new Date().toISOString();
     const info = db.prepare(`
-      INSERT INTO leads (ref_code, name, phone, email, goal, plan, experience, message, macro_profile, status, notes, created_at)
-      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'new', '', ?)
+      INSERT INTO leads (
+        ref_code, name, age, gender, phone, email, instagram,
+        occupation, goal, plan, struggles, workout_time, budget, payment_method,
+        experience, message, macro_profile, status, notes, created_at
+      )
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'new', '', ?)
     `).run(
       ref_code,
       data.name,
+      data.age ? parseInt(data.age, 10) : null,
+      data.gender || 'Not specified',
       data.phone,
       data.email,
+      data.instagram || '',
+      data.occupation || 'Working person',
       data.goal,
-      data.plan,
-      data.experience || 'Beginner (0 - 6 months)',
-      data.message || '',
+      data.plan || 'Custom Coaching',
+      data.struggles || data.message || '',
+      data.workout_time || 'Flexible',
+      data.budget || 'Flexible',
+      data.payment_method || 'UPI',
+      data.experience || 'Intermediate',
+      data.message || data.struggles || '',
       data.macro_profile ? JSON.stringify(data.macro_profile) : null,
       created_at
     );

@@ -515,21 +515,33 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             const name = document.getElementById('client-name').value.trim();
+            const age = document.getElementById('client-age').value.trim();
+            const gender = document.getElementById('client-gender').value;
             const phone = document.getElementById('client-phone').value.trim();
             const email = document.getElementById('client-email').value.trim();
+            const instagram = document.getElementById('client-instagram')?.value.trim() || '';
+            const occupation = document.getElementById('client-occupation').value;
+            const workout_time = document.getElementById('client-workout-time').value;
             const goal = document.getElementById('client-goal').value;
-            const plan = document.getElementById('client-plan')?.value || 'Coaching Program';
-            const experience = document.getElementById('client-experience')?.value || 'Intermediate';
-            const message = document.getElementById('client-message')?.value || '';
+            const plan = document.getElementById('client-plan')?.value || 'Momentum (8 Weeks)';
+            const budget = document.getElementById('client-budget').value;
+            const payment_method = document.getElementById('client-payment').value;
+            const struggles = document.getElementById('client-struggles').value.trim();
 
             const payload = {
                 name,
+                age,
+                gender,
                 phone,
                 email,
+                instagram,
+                occupation,
+                workout_time,
                 goal,
                 plan,
-                experience,
-                message,
+                budget,
+                payment_method,
+                struggles,
                 macro_profile: attachedMacroProfile
             };
 
@@ -551,20 +563,30 @@ document.addEventListener('DOMContentLoaded', () => {
                         formNotify.style.display = 'block';
                         formNotify.innerHTML = `
                             <div style="padding: 0.5rem 0;">
-                                <h4 style="color: var(--primary-gold); margin-bottom: 0.3rem;">⚡ APPLICATION SUBMITTED IN REAL-TIME!</h4>
-                                <p style="margin-bottom: 0.4rem;">Thank you, <strong>${escapeHtml(name)}</strong>. Your application for <strong>${escapeHtml(plan)}</strong> is registered in Coach Kaarthi's live queue.</p>
+                                <h4 style="color: var(--primary-gold); margin-bottom: 0.3rem;">⚡ CONSULTATION REGISTERED IN REAL-TIME!</h4>
+                                <p style="margin-bottom: 0.4rem;">Thank you, <strong>${escapeHtml(name)}</strong>! Your intake details for <strong>${escapeHtml(goal)}</strong> have been delivered directly to Coach Kaarthi.</p>
                                 <div style="background: rgba(0,0,0,0.4); padding: 0.6rem 0.8rem; border-radius: 6px; font-family: var(--font-mono); font-size: 0.85rem; margin-bottom: 0.5rem;">
-                                    Reference ID: <span style="color: var(--primary-gold-bright); font-weight: 700;">${lead.ref_code}</span> &bull; Status: <span style="color: #10b981;">New Application Received</span>
+                                    Reference ID: <span style="color: var(--primary-gold-bright); font-weight: 700;">${lead.ref_code}</span> &bull; Status: <span style="color: #10b981;">New Application in Coach Queue</span>
                                 </div>
-                                <p style="font-size: 0.82rem; color: #a3a3a8;">Connecting to WhatsApp direct chat in 2 seconds...</p>
+                                <p style="font-size: 0.82rem; color: #a3a3a8;">Opening WhatsApp direct chat in 2 seconds...</p>
                             </div>
                         `;
                     }
 
-                    // Compose WhatsApp message
-                    const waText = encodeURIComponent(`Hi Coach Kaarthi! I just submitted my consultation application [Ref: ${lead.ref_code}]. I'm interested in the ${plan} with the goal of ${goal}. Can we connect?`);
-                    const cleanPhone = '919876543210';
-                    const whatsappUrl = `https://wa.me/?text=${waText}`;
+                    // Compose detailed WhatsApp message
+                    const waSummary = `Hi Coach Kaarthi! I just submitted my consultation application on Kaarthi Lifts.
+Ref ID: ${lead.ref_code}
+• Name: ${name} (Age: ${age}, ${gender})
+• Routine: ${occupation}
+• Availability: ${workout_time}
+• Fitness Target: ${goal}
+• Program: ${plan}
+• Budget: ${budget}
+• Payment Mode: ${payment_method}
+• Key Struggles: "${struggles.substring(0, 100)}${struggles.length > 100 ? '...' : ''}"
+Can we discuss my personalized roadmap?`;
+
+                    const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(waSummary)}`;
 
                     setTimeout(() => {
                         window.open(whatsappUrl, '_blank');

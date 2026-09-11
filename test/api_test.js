@@ -13,17 +13,23 @@ async function runTests() {
   assert.ok(statsData.stats.slotsRemaining !== undefined, 'Stats should contain slotsRemaining');
   console.log('  ✓ Pass: Current slots remaining =', statsData.stats.slotsRemaining);
 
-  // 2. Submit a real-time consultation lead
+  // 2. Submit a real-time consultation lead with all 12 onboarding fields
   console.log('Test 2: POST /api/leads');
   const leadPayload = {
-    name: 'Test Athlete Automated',
-    phone: '+91 99999 88888',
-    email: 'test.athlete@example.com',
-    goal: 'Lean Muscle Bulk',
+    name: 'Siddharth V',
+    age: 26,
+    gender: 'Male',
+    phone: '+91 98450 12345',
+    email: 'siddharth@example.com',
+    instagram: '@sid_lifts',
+    occupation: 'Working Professional (Desk / Corporate)',
+    workout_time: 'Evening (5:00 PM – 8:00 PM)',
+    goal: 'Bulking / Muscle Hypertrophy',
     plan: 'Elite Transformation — 12 Weeks (₹11,999)',
-    experience: 'Intermediate (6 months - 2 years)',
-    message: 'Testing real-time lead pipeline automated test',
-    macro_profile: { calories: 2800, protein: 170, carbs: 320, fats: 70 }
+    budget: '₹9,000 – ₹15,000 / month',
+    payment_method: 'UPI (GPay / PhonePe / Paytm)',
+    struggles: 'Struggling with inconsistent calorie intake and shoulder form on incline bench.',
+    macro_profile: { calories: 2900, protein: 180, carbs: 340, fats: 72 }
   };
 
   const leadRes = await fetch(`${baseUrl}/api/leads`, {
@@ -35,9 +41,13 @@ async function runTests() {
   const leadData = await leadRes.json();
   assert.ok(leadData.success, 'Lead submission should have success: true');
   assert.ok(leadData.lead.ref_code.startsWith('KL-'), 'Lead should have ref_code starting with KL-');
+  assert.strictEqual(leadData.lead.age, 26, 'Age should be stored as 26');
+  assert.strictEqual(leadData.lead.gender, 'Male', 'Gender should be stored as Male');
+  assert.strictEqual(leadData.lead.instagram, '@sid_lifts', 'Instagram should be stored');
+  assert.strictEqual(leadData.lead.payment_method, 'UPI (GPay / PhonePe / Paytm)', 'Payment method should match');
   const createdRef = leadData.lead.ref_code;
   const createdId = leadData.lead.id;
-  console.log('  ✓ Pass: Created lead with Reference ID =', createdRef);
+  console.log('  ✓ Pass: Created lead with Reference ID =', createdRef, 'and all 12 fields persisted');
 
   // 3. Track consultation status
   console.log('Test 3: GET /api/leads/track/' + createdRef);

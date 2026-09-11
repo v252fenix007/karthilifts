@@ -317,11 +317,15 @@ document.addEventListener('DOMContentLoaded', () => {
             const waText = encodeURIComponent(`Hi ${lead.name}, this is Coach Kaarthi from Kaarthi Lifts. I reviewed your consultation request for the ${lead.plan}. Let's discuss your targets!`);
             const waUrl = `https://wa.me/${cleanPhone.replace('+', '')}?text=${waText}`;
 
+            const ageGender = (lead.age || lead.gender) ? ` &bull; ${lead.age ? `${lead.age} yrs` : ''} ${lead.gender ? `(${escapeHtml(lead.gender)})` : ''}` : '';
+            const igHandle = lead.instagram ? lead.instagram.replace('@', '').trim() : '';
+            const igLink = igHandle ? `<a href="https://instagram.com/${igHandle}" target="_blank" rel="noopener" style="color: #e1306c; font-weight:600;">@${igHandle}</a>` : '';
+
             return `
                 <div class="lead-card status-${lead.status}" id="lead-card-${lead.id}">
                     <div class="lead-card-header">
                         <div>
-                            <span class="lead-ref">${lead.ref_code} &bull; ${new Date(lead.created_at).toLocaleDateString()} ${new Date(lead.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                            <span class="lead-ref">${lead.ref_code} &bull; ${new Date(lead.created_at).toLocaleDateString()} ${new Date(lead.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}${ageGender}</span>
                             <h3 class="lead-name">${escapeHtml(lead.name)}</h3>
                         </div>
                         <span class="lead-status-badge badge-${lead.status}">${lead.status}</span>
@@ -332,15 +336,23 @@ document.addEventListener('DOMContentLoaded', () => {
                             <span>📞 <a href="tel:${cleanPhone}" style="color: var(--primary-gold);">${escapeHtml(lead.phone)}</a></span>
                             <span>&bull;</span>
                             <span>✉️ <a href="mailto:${escapeHtml(lead.email)}">${escapeHtml(lead.email)}</a></span>
+                            ${igLink ? `<span>&bull;</span> <span>📸 ${igLink}</span>` : ''}
                         </div>
-                        <div style="margin-top: 0.4rem;">
+                        <div style="margin-top: 0.5rem;">
                             <span class="meta-tag">🎯 ${escapeHtml(lead.goal)}</span>
-                            <span class="meta-tag">📦 ${escapeHtml(lead.plan)}</span>
-                            <span class="meta-tag">⚡ ${escapeHtml(lead.experience || 'Intermediate')}</span>
+                            <span class="meta-tag">💼 ${escapeHtml(lead.occupation || 'Working Person')}</span>
+                            <span class="meta-tag">⏰ ${escapeHtml(lead.workout_time || 'Flexible')}</span>
+                            <span class="meta-tag">💰 ${escapeHtml(lead.budget || 'Flexible')}</span>
+                            <span class="meta-tag">💳 ${escapeHtml(lead.payment_method || 'UPI')}</span>
+                            <span class="meta-tag">📦 ${escapeHtml(lead.plan || 'Coaching')}</span>
                         </div>
                     </div>
 
-                    ${lead.message ? `<div class="lead-message">"${escapeHtml(lead.message)}"</div>` : ''}
+                    ${(lead.struggles || lead.message) ? `
+                        <div class="lead-message">
+                            <strong>Struggles:</strong> "${escapeHtml(lead.struggles || lead.message)}"
+                        </div>
+                    ` : ''}
                     ${macroHtml}
 
                     <div class="lead-actions">

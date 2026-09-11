@@ -33,20 +33,32 @@ export function createApiRouter(io) {
   // 2. Submit Consultation Request
   router.post('/leads', (req, res) => {
     try {
-      const { name, phone, email, goal, plan, experience, message, macro_profile } = req.body;
+      const {
+        name, age, gender, phone, email, instagram,
+        occupation, struggles, goal, plan, workout_time, budget, payment_method,
+        experience, message, macro_profile
+      } = req.body;
 
-      if (!name || !phone || !email || !goal || !plan) {
-        return res.status(400).json({ error: 'Missing required consultation fields' });
+      if (!name || !phone || !email || !goal) {
+        return res.status(400).json({ error: 'Missing required consultation fields (name, phone, email, goal)' });
       }
 
       const newLead = dbOps.createLead({
         name,
+        age: age ? parseInt(age, 10) : null,
+        gender: gender || 'Not specified',
         phone,
         email,
+        instagram: instagram || '',
+        occupation: occupation || 'Working person',
+        struggles: struggles || message || '',
         goal,
-        plan,
-        experience,
-        message,
+        plan: plan || 'Coaching Program',
+        workout_time: workout_time || 'Flexible',
+        budget: budget || 'Flexible',
+        payment_method: payment_method || 'UPI',
+        experience: experience || 'Intermediate',
+        message: message || struggles || '',
         macro_profile
       });
 

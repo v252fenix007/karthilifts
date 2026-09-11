@@ -869,61 +869,130 @@
                     <form class="contact-form" id="contact-form">
                         <div id="form-notification" class="form-notification"></div>
 
+                        <!-- 1. Name & Age -->
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="client-name">Your Full Name *</label>
                                 <input type="text" id="client-name" class="form-control" placeholder="e.g. Rahul Sharma" required>
                             </div>
                             <div class="form-group">
-                                <label for="client-phone">Phone / WhatsApp *</label>
+                                <label for="client-age">Age *</label>
+                                <input type="number" id="client-age" class="form-control" placeholder="e.g. 24" min="15" max="80" required>
+                            </div>
+                        </div>
+
+                        <!-- 2. Gender & Phone -->
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="client-gender">Male or Female (Gender) *</label>
+                                <select id="client-gender" class="form-control" required>
+                                    <option value="" disabled selected>Select gender</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                    <option value="Other / Prefer not to say">Other / Prefer not to say</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="client-phone">Phone / WhatsApp Number *</label>
                                 <input type="tel" id="client-phone" class="form-control" placeholder="+91 98765 43210" required>
                             </div>
                         </div>
 
+                        <!-- 3. Email & Instagram ID -->
                         <div class="form-row">
                             <div class="form-group">
                                 <label for="client-email">Email Address *</label>
                                 <input type="email" id="client-email" class="form-control" placeholder="rahul@example.com" required>
                             </div>
                             <div class="form-group">
-                                <label for="client-goal">Primary Goal *</label>
-                                <select id="client-goal" class="form-control" required>
-                                    <option value="" disabled selected>Select your goal</option>
-                                    <option value="Fat Loss & Shred">Aggressive Fat Loss & Shred</option>
-                                    <option value="Lean Muscle Bulk">Lean Muscle Hypertrophy (Clean Bulk)</option>
-                                    <option value="Body Recomposition">Body Recomposition (Fat Loss + Muscle Gain)</option>
-                                    <option value="Strength & Biomechanics">Strength & Athletic Performance</option>
+                                <label for="client-instagram">Instagram ID</label>
+                                <input type="text" id="client-instagram" class="form-control" placeholder="@yourhandle (e.g. @rahul_lifts)">
+                            </div>
+                        </div>
+
+                        <!-- 4. Working Person or Student & Workout Time Availability -->
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="client-occupation">Working Person or Student? *</label>
+                                <select id="client-occupation" class="form-control" required>
+                                    <option value="" disabled selected>Select your current routine</option>
+                                    <option value="Working Professional (Desk / Corporate)">Working Professional (Desk / Corporate)</option>
+                                    <option value="Working Professional (Field / Active)">Working Professional (Field / Active)</option>
+                                    <option value="College / University Student">College / University Student</option>
+                                    <option value="Self-Employed / Business Owner">Self-Employed / Business Owner</option>
+                                    <option value="Homemaker / Other">Homemaker / Other</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="client-workout-time">Your Availability of Workout Time *</label>
+                                <select id="client-workout-time" class="form-control" required>
+                                    <option value="" disabled selected>Choose your workout window</option>
+                                    <option value="Early Morning (5:30 AM – 7:30 AM)">Early Morning (5:30 AM – 7:30 AM)</option>
+                                    <option value="Morning (7:30 AM – 10:00 AM)">Morning (7:30 AM – 10:00 AM)</option>
+                                    <option value="Afternoon (12:00 PM – 3:00 PM)">Afternoon (12:00 PM – 3:00 PM)</option>
+                                    <option value="Evening (5:00 PM – 8:00 PM)">Evening (5:00 PM – 8:00 PM)</option>
+                                    <option value="Night (8:00 PM – 11:00 PM)">Night (8:00 PM – 11:00 PM)</option>
+                                    <option value="Flexible / Varies Day-to-Day">Flexible / Varies Day-to-Day</option>
                                 </select>
                             </div>
                         </div>
 
+                        <!-- 5. Fitness Target (weight loss, bulking, cutting) & Program -->
                         <div class="form-row">
                             <div class="form-group">
-                                <label for="client-plan">Selected Program *</label>
+                                <label for="client-goal">Fitness Target (Weight Loss, Bulking, Cutting) *</label>
+                                <select id="client-goal" class="form-control" required>
+                                    <option value="" disabled selected>Select primary fitness goal</option>
+                                    <option value="Weight Loss & Aggressive Shred">Weight Loss (Aggressive Shred)</option>
+                                    <option value="Bulking / Muscle Hypertrophy">Bulking (Lean Muscle Hypertrophy)</option>
+                                    <option value="Cutting & Lean Definition">Cutting (Shred Fat & Keep Muscle)</option>
+                                    <option value="Body Recomposition">Body Recomposition (Fat Loss + Muscle Gain)</option>
+                                    <option value="Strength & Biomechanics">Strength & Biomechanics Performance</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="client-plan">Selected Program Duration *</label>
                                 <select id="client-plan" class="form-control" required>
-                                    <option value="" disabled>Choose your plan</option>
                                     <option value="Starter — 4 Weeks (₹4,999)">Starter (4 Weeks) — ₹4,999</option>
                                     <option value="Momentum — 8 Weeks (₹8,999)" selected>Momentum (8 Weeks) — ₹8,999 (Most Popular)</option>
                                     <option value="Elite Transformation — 12 Weeks (₹11,999)">Elite Transformation (12 Weeks) — ₹11,999</option>
-                                    <option value="Undecided / Custom Consultation">Undecided / Custom Recommendation</option>
+                                    <option value="Undecided / Custom Consultation">Undecided / Coach Recommendation</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- 6. Budget & Payment Preference -->
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="client-budget">Budget I Can Afford To Make My Fitness *</label>
+                                <select id="client-budget" class="form-control" required>
+                                    <option value="" disabled selected>Select affordable monthly budget</option>
+                                    <option value="₹3,000 – ₹5,000 / month">₹3,000 – ₹5,000 / month (Starter)</option>
+                                    <option value="₹5,000 – ₹9,000 / month">₹5,000 – ₹9,000 / month (Momentum)</option>
+                                    <option value="₹9,000 – ₹15,000 / month">₹9,000 – ₹15,000 / month (Elite Coaching)</option>
+                                    <option value="Flexible / Focused on Best Results">Flexible / Focused on Best Results</option>
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="client-experience">Current Experience</label>
-                                <select id="client-experience" class="form-control">
-                                    <option value="Beginner (0 - 6 months)">Beginner (0 - 6 months)</option>
-                                    <option value="Intermediate (6 months - 2 years)" selected>Intermediate (6 months - 2 years)</option>
-                                    <option value="Advanced (2+ years)">Advanced (2+ years)</option>
+                                <label for="client-payment">Preferred Payment Method *</label>
+                                <select id="client-payment" class="form-control" required>
+                                    <option value="" disabled selected>Select payment mode</option>
+                                    <option value="UPI (GPay / PhonePe / Paytm)">UPI (Google Pay / PhonePe / Paytm)</option>
+                                    <option value="Credit / Debit Card">Credit / Debit Card</option>
+                                    <option value="Net Banking / IMPS">Net Banking / IMPS Transfer</option>
+                                    <option value="EMI / Split in 2 Installments">EMI / Split into 2 Installments</option>
+                                    <option value="Pay After Consultation Call">Pay After Initial Consultation Call</option>
                                 </select>
                             </div>
                         </div>
 
+                        <!-- 7. Struggles faced towards journey -->
                         <div class="form-group">
-                            <label for="client-message">Tell Me About Your Challenge / Injuries</label>
-                            <textarea id="client-message" class="form-control" placeholder="What has been holding you back? Any previous injuries or specific targets?"></textarea>
+                            <label for="client-struggles">The Struggles You Face Towards Your Journey *</label>
+                            <textarea id="client-struggles" class="form-control" rows="3" placeholder="What has been holding you back? (e.g. inconsistent nutrition, hitting a plateau, lack of gym guidance, past back/knee injury, hectic work hours...)" required></textarea>
                         </div>
 
-                        <button type="submit" class="btn btn-primary" style="width: 100%; padding: 1.1rem; font-size: 1.05rem;">
+                        <button type="submit" class="btn btn-primary" style="width: 100%; padding: 1.15rem; font-size: 1.05rem;">
                             SUBMIT CONSULTATION REQUEST &rarr;
                         </button>
                     </form>
