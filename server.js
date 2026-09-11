@@ -146,13 +146,17 @@ io.on('connection', (socket) => {
   });
 });
 
-const PORT = process.env.PORT || 3000;
-server.listen(PORT, () => {
-  console.log(`====================================================`);
-  console.log(`⚡ KAARTHI LIFTS REAL-TIME FULLSTACK SERVER RUNNING`);
-  console.log(`⚡ Visitor Experience: http://localhost:${PORT}`);
-  console.log(`⚡ Coach Admin Center: http://localhost:${PORT}/admin`);
-  console.log(`⚡ Real-Time WebSockets: Active`);
-  console.log(`⚡ SQLite Database: Connected (WAL Mode)`);
-  console.log(`====================================================`);
-});
+if (!process.env.VERCEL) {
+  const PORT = process.env.PORT || 3000;
+  server.listen(PORT, () => {
+    console.log(`====================================================`);
+    console.log(`⚡ KAARTHI LIFTS REAL-TIME FULLSTACK SERVER RUNNING`);
+    console.log(`⚡ Visitor Experience: http://localhost:${PORT}`);
+    console.log(`⚡ Coach Admin Center: http://localhost:${PORT}/admin`);
+    console.log(`⚡ Real-Time WebSockets: Active`);
+    console.log(`⚡ SQLite Database: Connected (WAL Mode)`);
+    console.log(`====================================================`);
+  });
+}
+
+export default app;
